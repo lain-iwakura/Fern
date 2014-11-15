@@ -1,0 +1,104 @@
+# CMakeBikesLists (необходимая подпись)
+cmake_minimum_required (VERSION 2.8.9)
+#-------------------------------------------------------------------------------
+# Включение и инициализация CMakeBikes ->
+if(NOT CMAKE_BIKES)	
+	set(CMAKE_BIKES ON)
+	set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/CMakeBikes/CMakeModules)		
+	include(CMakeBikes)
+endif()
+CMakeBikes_init()
+# <- Включение и инициализация CMakeBikes
+#-------------------------------------------------------------------------------
+# Опции ->
+
+set(PROJECT_NAME			AUTO) # AUTO|<THE_NAME_OF_PROJECT>
+
+set(PROJECT_TYPE			AUTO) # AUTO|EXECUTABLE|SHARED_LIB|STATIC_LIB|SHARED_OR_STATIC_LIB|STATIC_OR_SHARED_LIB|HEADERS_LIB|AGGREGATION
+
+set(REQUIRED_LIBS 			AUTO) # NO|[AUTO][<REQUIRED_LIBS_LIST>]
+
+set(REQUIRED_INCLUDE		NO)   # NO|[<REQUIRED_TARGETS_LIST>]
+
+set(ADDITIONAL_INCLUDE_DIRS NO)   # NO|<INCLUDE_DIRS_LIST>
+
+set(PRIVATE_DEFINITIONS 	NO)	  # NO|<DEFINITIONS_LIST>
+
+set(USERS_INCLUDE 		    AUTO) # NO|[AUTO][PUBLIC][PRIVATE][DEPENDENCIES][ADDITIONAL][<INCLUDE_TARGETS_LIST>][<INCLUDE_DIRS_LIST>]
+
+set(USERS_DEFINITIONS 		AUTO) # NO|[AUTO][STATIC_EXPORT][SHARED_EXPORT][PRIVATE][<DEFINITIONS_LIST>]
+
+set(USE_PRECOMPILED_HEADER 	AUTO) # NO|AUTO|<HEADER_PATH>
+
+set(USE_BOOST				OFF)  # ON|OFF
+
+set(USE_QT					OFF)  # ON|OFF|[ON][AUTOMOC][CORE][MAIN][GUI][OPENGL][SVG][XML][SQL][NETWORK][3SUPPORT][WEBKIT][HELP][TEST]
+
+set(USE_VLD					ON)   # ON|OFF
+
+set(USE_INSTALL				OFF)  # ON|OFF|<INSTALL_PATH>
+
+set(OUT_BIN_PREFIX			NO)   # NO|<BIN_RELATIVE_PATH>
+
+# <- Опции
+#-------------------------------------------------------------------------------
+# Расширенные опции ->
+
+# Каталоги ->
+ifndef_set(OUT_ROOT_DIR			${CMAKE_BINARY_DIR})
+ifndef_set(OUT_LIB_DIR			lib)
+ifndef_set(OUT_BIN_DIR			bin)
+ifndef_set(OUT_INSTALL_DIR		dist)
+set(HINT_PUBLIC_INCLUDE_PREFIX	${PROJECT_NAME})
+set(HINT_DEPENDENCIES_DIR		dependencies libraries libs) 
+set(HINT_SAMPLES_DIR			sample* demo* test* tools) 
+set(HINT_IGNOR_DIRS				.git build CMake* doc) 
+# <- Каталоги
+
+# Файлы ->
+set(HINT_PRECOMPILED_HEADER	precompil* prerequisit* )
+set(HINT_EXPORT_HEADER		export* )
+set(HINT_MAIN_SOURCE		main )
+# <- Файлы
+
+# Расширения файлов ->
+set(HINT_EXT_HEADERS		h hpp )
+set(HINT_EXT_SOURCES		cpp cc c )
+set(HINT_EXT_QT_RESOURCES	qrc )
+set(HINT_EXT_QT_UI			ui )
+set(OUT_EXT_MOC				cxx)
+# <- Расширения файлов 
+
+# Определения препроцесcора ->
+set(DEF_FOR_STATIC_EXPORT	${PROJECT_NAME}_STATICLIB )
+set(DEF_FOR_SHARED_EXPORT	${PROJECT_NAME}_SHAREDLIB )
+string(TOUPPER ${DEF_FOR_STATIC_EXPORT} DEF_FOR_STATIC_EXPORT)
+string(TOUPPER ${DEF_FOR_SHARED_EXPORT} DEF_FOR_SHARED_EXPORT)
+# <- Определения препроцесcора 
+
+# Цель ->
+set(TARGET_NAME ${PROJECT_NAME})
+# <- Цель
+
+# Выходные каталоги ->
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${OUT_ROOT_DIR}/${OUT_LIB_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${OUT_ROOT_DIR}/${OUT_LIB_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUT_ROOT_DIR}/${OUT_BIN_DIR}")
+set(CMAKE_INSTALL_PREFIX "${OUT_ROOT_DIR}/${OUT_INSTALL_DIR}")
+# <- Выходные каталоги 
+
+# Дополнительные файлы и каталоги ->
+set(EXTRA_SOURCEDIRS) # Список дополнительных каталоги проекта 
+set(EXTRA_HEADERS) # Список дополнительных заголовочных файлов
+set(EXTRA_SOURCES) # Список дополнительных исходников
+set(EXTRA_QT_RESOURCES) # Список дополнительных Qt-ресурсов
+set(EXTRA_QT_SOURCES_FOR_MOC) # Список дополнительных исходников, требующих MOC-обработку
+set(EXTRA_QT_UI) # Список дополнительных Qt-форм в формате ui
+# <- Дополнительные файлы и каталоги
+
+# <- Расширенные опции 
+#-------------------------------------------------------------------------------
+# Создание целей ->
+CMakeBikes_run()
+# <- Создание целей
+#-------------------------------------------------------------------------------
